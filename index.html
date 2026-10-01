@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GTM Playbook · Timeless Investments</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS · dark (Timeless brand palette) ──────────────────────── */
+:root {
+  --bg:         #090f0d;
+  --bg-card:    #0f1916;
+  --bg-raised:  #162520;
+  --fg:         #f0f5f2;
+  --fg-2:       #8fa89f;
+  --fg-muted:   rgba(240,245,242,.58);
+  --fg-3:       #4d6360;
+  --label:      rgba(240,245,242,.36);
+  --teal:       #44c496;
+  --teal-hi:    #5dd6a8;
+  --border:     rgba(255,255,255,.07);
+  --border-mid: rgba(255,255,255,.13);
+  --nav-bg:     rgba(9,15,13,.92);
+  --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --r: 10px;
+}
+
+/* ── light override ──────────────────────────────────────────────── */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:         #f2f8f5;
+    --bg-card:    #e4efea;
+    --bg-raised:  #d5e8e0;
+    --fg:         #0a1410;
+    --fg-2:       #3a5a52;
+    --fg-muted:   rgba(10,20,16,.58);
+    --fg-3:       #8fa89f;
+    --label:      rgba(10,20,16,.38);
+    --teal:       #1a9a72;
+    --teal-hi:    #1fb885;
+    --border:     rgba(0,0,0,.09);
+    --border-mid: rgba(0,0,0,.16);
+    --nav-bg:     rgba(242,248,245,.94);
+  }
+}
+:root[data-theme="light"] {
+  --bg:         #f2f8f5;
+  --bg-card:    #e4efea;
+  --bg-raised:  #d5e8e0;
+  --fg:         #0a1410;
+  --fg-2:       #3a5a52;
+  --fg-muted:   rgba(10,20,16,.58);
+  --fg-3:       #8fa89f;
+  --label:      rgba(10,20,16,.38);
+  --teal:       #1a9a72;
+  --teal-hi:    #1fb885;
+  --border:     rgba(0,0,0,.09);
+  --border-mid: rgba(0,0,0,.16);
+  --nav-bg:     rgba(242,248,245,.94);
+}
+:root[data-theme="dark"] {
+  --bg:         #090f0d;
+  --bg-card:    #0f1916;
+  --bg-raised:  #162520;
+  --fg:         #f0f5f2;
+  --fg-2:       #8fa89f;
+  --fg-muted:   rgba(240,245,242,.58);
+  --fg-3:       #4d6360;
+  --label:      rgba(240,245,242,.36);
+  --teal:       #44c496;
+  --teal-hi:    #5dd6a8;
+  --border:     rgba(255,255,255,.07);
+  --border-mid: rgba(255,255,255,.13);
+  --nav-bg:     rgba(9,15,13,.92);
+}
+
+/* ── BASE ────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+
+/* ── PROGRESS ────────────────────────────────────────────────────── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 2px; width: 0;
+  background: var(--teal); z-index: 999; transition: width .06s linear;
+}
+
+/* ── NAV ─────────────────────────────────────────────────────────── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  transform: translateY(-100%); transition: transform .28s ease;
+  background: var(--nav-bg); border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+}
+.nav.show { transform: translateY(0); }
+.nav-inner {
+  max-width: 1120px; margin: 0 auto; padding: 0 52px; height: 52px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.nav-logo-wrap { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.nav-logo { font-size: 14px; font-weight: 600; letter-spacing: -.01em; color: var(--fg); }
+.nav-logo em { color: var(--teal); font-style: normal; }
+.nav-sep { width: 1px; height: 16px; background: var(--border-mid); }
+.nav-client-logo { display: flex; align-items: center; gap: 6px; }
+.nav-client-icon { width: 18px; height: 18px; color: var(--teal); }
+.nav-client-name { font-size: 13px; font-weight: 600; color: var(--fg-2); }
+.nav-links { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-links a {
+  display: block; padding: 5px 12px; font-size: 13px; font-weight: 400;
+  color: var(--fg-2); border-radius: 6px; white-space: nowrap;
+  transition: color .12s, background .12s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--fg); background: rgba(68,196,150,.1); }
+
+/* ── COVER ───────────────────────────────────────────────────────── */
+.cover {
+  min-height: 100vh;
+  display: grid; grid-template-rows: auto 1fr auto;
+  padding: 52px 64px 72px;
+  background: var(--bg);
+  position: relative; overflow: hidden;
+}
+.cover-haze {
+  position: absolute; bottom: -20%; left: -10%;
+  width: 70%; height: 80%;
+  background: radial-gradient(ellipse at center, rgba(68,196,150,.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+.cover-haze-2 {
+  position: absolute; top: -15%; right: -5%;
+  width: 50%; height: 60%;
+  background: radial-gradient(ellipse at center, rgba(22,37,32,.7) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cover-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  position: relative; z-index: 1;
+}
+.cover-top-left { display: flex; flex-direction: column; gap: 3px; }
+.cover-wordmark { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+.cover-wordmark em { color: var(--teal); font-style: normal; }
+.cover-sub-line { font-size: 11px; font-weight: 400; color: var(--fg-3); letter-spacing: .04em; text-transform: uppercase; }
+.cover-top-right { display: flex; align-items: flex-start; gap: 20px; }
+.cover-client-logo { display: flex; align-items: center; gap: 10px; }
+.cover-client-icon { width: 26px; height: 26px; color: var(--teal); opacity: .75; }
+.cover-client-name { font-size: 16px; font-weight: 700; letter-spacing: -.01em; color: var(--fg-2); opacity: .7; }
+.cover-ref { text-align: right; }
+.cover-ref-id { font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--fg-3); margin-bottom: 6px; }
+.cover-badge {
+  display: inline-block; font-size: 9px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--teal); border: 1px solid rgba(68,196,150,.35);
+  border-radius: 100px; padding: 3px 10px;
+}
+
+.cover-body {
+  display: flex; flex-direction: column; justify-content: flex-end;
+  position: relative; z-index: 1; padding-top: 48px;
+}
+.cover-text { display: flex; flex-direction: column; justify-content: flex-end; }
+.cover-eyebrow {
+  font-size: 11px; font-weight: 500; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--label); margin-bottom: 28px;
+}
+.cover-title {
+  font-size: clamp(52px, 7vw, 96px);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: .95;
+  color: var(--fg);
+  text-wrap: balance;
+  margin-bottom: 28px;
+  max-width: 820px;
+}
+.cover-title em {
+  font-style: normal;
+  background: linear-gradient(90deg, #44c496 0%, #7de8c0 40%, #5dd6a8 65%, #44c496 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: teal-shimmer 3s linear infinite;
+}
+@keyframes teal-shimmer {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+.cover-line { display: block; overflow: hidden; padding-bottom: 0.18em; margin-bottom: -0.18em; }
+.cover-line-inner {
+  display: block;
+  transform: translateY(110%);
+  animation: line-reveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.cover-line:nth-child(2) .cover-line-inner { animation-delay: 0.12s; }
+.cover-line:nth-child(3) .cover-line-inner { animation-delay: 0.24s; }
+@keyframes line-reveal { to { transform: translateY(0); } }
+.cover-rule { width: 36px; height: 2px; background: var(--teal); border-radius: 1px; margin-bottom: 28px; }
+.cover-subtitle {
+  font-size: 16px; font-weight: 400; color: var(--fg-2);
+  max-width: 52ch; line-height: 1.72; margin-bottom: 52px;
+}
+.cover-meta { display: flex; gap: 40px; flex-wrap: wrap; }
+.cm-label { font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--fg-3); margin-bottom: 5px; }
+.cm-value { font-size: 14px; font-weight: 400; color: var(--fg-muted); }
+
+/* ── WRAP & SECTION ──────────────────────────────────────────────── */
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 64px; }
+.section { padding: 88px 0; border-top: 1px solid var(--border); }
+.sec-label { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--label); margin-bottom: 12px; }
+.sec-title {
+  font-size: clamp(28px, 3.5vw, 46px);
+  font-weight: 800; letter-spacing: -.025em; line-height: 1.05;
+  color: var(--fg); text-wrap: balance; margin-bottom: 14px;
+}
+.sec-sub { font-size: 15px; font-weight: 400; color: var(--fg-2); max-width: 60ch; line-height: 1.75; margin-bottom: 48px; }
+
+/* ── CHALLENGE GRID ──────────────────────────────────────────────── */
+.challenge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 40px; }
+.challenge-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 28px 24px;
+  position: relative;
+  transition: border-color .15s, background .15s;
+}
+.challenge-card:hover { border-color: var(--border-mid); background: var(--bg-raised); }
+.challenge-num {
+  font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 14px;
+}
+.challenge-title { font-size: 16px; font-weight: 700; letter-spacing: -.015em; color: var(--fg); margin-bottom: 10px; line-height: 1.25; }
+.challenge-body { font-size: 12.5px; font-weight: 400; color: var(--fg-2); line-height: 1.72; }
+
+/* ── PROCESS ─────────────────────────────────────────────────────── */
+.process { display: flex; flex-direction: column; }
+.process-step {
+  display: grid; grid-template-columns: 48px 1fr;
+  gap: 24px; padding: 28px 0;
+  border-bottom: 1px solid var(--border); align-items: start;
+}
+.process-step:last-child { border-bottom: none; }
+.step-num { font-size: 13px; font-weight: 600; color: var(--fg-3); letter-spacing: -.01em; padding-top: 2px; }
+.step-week {
+  font-size: 9px; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--fg-3); margin-bottom: 6px;
+}
+.step-title { font-size: 17px; font-weight: 700; letter-spacing: -.015em; color: var(--fg); margin-bottom: 10px; }
+.step-body { font-size: 13px; font-weight: 400; color: var(--fg-2); line-height: 1.7; }
+.step-duration { font-size: 11px; font-weight: 500; color: var(--fg-3); margin-top: 10px; }
+
+/* ── DELIVERABLES ────────────────────────────────────────────────── */
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes border-spin { to { --border-angle: 360deg; } }
+
+.del-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.del-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 24px 22px;
+  position: relative;
+  transition: border-color .2s, background .2s;
+}
+.del-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: var(--r); padding: 1px;
+  background: conic-gradient(from var(--border-angle), transparent 75%, #44c496 88%, #7de8c0 93%, transparent 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0; transition: opacity 0.35s ease; pointer-events: none; z-index: 0;
+}
+.del-card:hover::before {
+  opacity: 1;
+  animation: border-spin 3s linear infinite;
+}
+.del-card:hover { background: var(--bg-raised); }
+.del-title { font-size: 15px; font-weight: 700; letter-spacing: -.015em; color: var(--fg); margin-bottom: 10px; }
+.del-body { font-size: 12.5px; font-weight: 400; color: var(--fg-2); line-height: 1.7; }
+
+/* ── STATS ───────────────────────────────────────────────────────── */
+.stats-block { margin-top: 56px; }
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 40px; }
+.stat-val {
+  font-size: clamp(30px, 3.2vw, 44px); font-weight: 800;
+  letter-spacing: -.035em; line-height: 1;
+  color: var(--fg); margin-bottom: 8px; font-variant-numeric: tabular-nums;
+}
+.stat-lbl { font-size: 12.5px; font-weight: 400; color: var(--fg-2); line-height: 1.5; }
+
+/* ── TRACK RECORD ────────────────────────────────────────────────── */
+.track-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+.track-case {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 26px 24px;
+  display: flex; flex-direction: column;
+  position: relative;
+  transition: border-color .15s, background .15s;
+}
+.track-case:hover { border-color: var(--border-mid); background: var(--bg-raised); }
+.track-case::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: var(--r); padding: 1px;
+  background: conic-gradient(from var(--border-angle), transparent 75%, #44c496 88%, #7de8c0 93%, transparent 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0; transition: opacity 0.35s ease; pointer-events: none; z-index: 0;
+}
+.track-case:hover::before {
+  opacity: 1;
+  animation: border-spin 3s linear infinite;
+}
+.track-logo { height: 20px; display: flex; align-items: center; color: var(--fg-3); margin-bottom: 16px; transition: color .15s; }
+.track-case:hover .track-logo { color: var(--fg-2); }
+.track-tag { font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--label); margin-bottom: 10px; }
+.track-proj { font-size: 17px; font-weight: 700; letter-spacing: -.015em; color: var(--fg); margin-bottom: 10px; }
+.track-desc { font-size: 12.5px; font-weight: 400; color: var(--fg-2); line-height: 1.72; flex: 1; }
+.track-relevance {
+  margin-top: 14px; font-size: 11px; font-weight: 500; color: var(--teal);
+  opacity: .8; line-height: 1.5;
+}
+.track-metrics {
+  display: flex; gap: 24px; flex-wrap: wrap;
+  margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);
+}
+.tm-val {
+  font-size: 26px; font-weight: 800; letter-spacing: -.03em;
+  color: var(--fg); line-height: 1; margin-bottom: 4px; font-variant-numeric: tabular-nums;
+}
+.tm-lbl { font-size: 10.5px; font-weight: 400; color: var(--fg-2); line-height: 1.4; }
+
+/* ── TESTIMONIALS ────────────────────────────────────────────────── */
+.testi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px; }
+.testi {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 28px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  position: relative;
+  transition: border-color .15s;
+}
+.testi:hover { border-color: var(--border-mid); }
+.testi::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: var(--r); padding: 1px;
+  background: conic-gradient(from var(--border-angle), transparent 75%, #44c496 88%, #7de8c0 93%, transparent 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0; transition: opacity 0.35s ease; pointer-events: none; z-index: 0;
+}
+.testi:hover::before { opacity: 1; animation: border-spin 3s linear infinite; }
+.testi-q {
+  font-size: 13.5px; font-weight: 400; color: var(--fg-2);
+  line-height: 1.75; margin-bottom: 22px;
+}
+.testi-q::before {
+  content: '\201C'; font-size: 32px; font-weight: 800;
+  color: var(--teal); opacity: .6; line-height: 0;
+  vertical-align: -.32em; margin-right: 2px;
+}
+.testi-name { font-size: 14px; font-weight: 700; color: var(--fg); margin-bottom: 2px; }
+.testi-role { font-size: 11.5px; font-weight: 400; color: var(--fg-2); line-height: 1.4; }
+
+/* ── TEAM ────────────────────────────────────────────────────────── */
+.team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 40px; }
+.team-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 22px 18px 24px;
+  position: relative;
+  transition: border-color .15s, background .15s;
+}
+.team-card:hover { border-color: var(--border-mid); background: var(--bg-raised); }
+.team-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: var(--r); padding: 1px;
+  background: conic-gradient(from var(--border-angle), transparent 75%, #44c496 88%, #7de8c0 93%, transparent 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0; transition: opacity 0.35s ease; pointer-events: none; z-index: 0;
+}
+.team-card:hover::before { opacity: 1; animation: border-spin 3s linear infinite; }
+.team-photo {
+  width: 60px; height: 60px; border-radius: 50%; overflow: hidden;
+  margin-bottom: 14px; border: 1.5px solid rgba(255,255,255,.1); background: #c0bab2;
+}
+.team-photo img { width: 100%; height: 100%; object-fit: cover; }
+.team-name { font-size: 14px; font-weight: 700; color: var(--fg); margin-bottom: 6px; line-height: 1.3; }
+.team-role { font-size: 11.5px; font-weight: 400; color: var(--fg-2); line-height: 1.6; }
+.team-ext {
+  margin-top: 18px; font-size: 12.5px; font-weight: 400; color: var(--fg-3);
+  padding: 14px 18px; border: 1px solid var(--border); border-radius: 8px;
+}
+
+/* ── PRICE BLOCK ─────────────────────────────────────────────────── */
+.price-block {
+  margin-top: 40px;
+  background: var(--bg-card); border: 1px solid var(--border-mid);
+  border-top: 1px solid rgba(68,196,150,.25);
+  border-radius: 14px; padding: 48px 52px;
+  display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center;
+}
+.price-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--label); margin-bottom: 12px; }
+.price-heading {
+  font-size: clamp(22px, 2.8vw, 34px); font-weight: 800;
+  letter-spacing: -.025em; color: var(--fg); line-height: 1.1; margin-bottom: 14px;
+}
+.price-body { font-size: 14px; font-weight: 400; color: var(--fg-2); line-height: 1.8; max-width: 62ch; }
+.price-validity { font-size: 11px; color: var(--fg-3); margin-top: 20px; }
+.price-aside { text-align: right; flex-shrink: 0; }
+.price-aside-label { font-size: 9px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-3); margin-bottom: 8px; }
+.price-aside-val {
+  font-size: 52px; font-weight: 800; letter-spacing: -.04em;
+  color: var(--teal); line-height: 1; font-variant-numeric: tabular-nums;
+}
+.price-aside-sub { font-size: 12px; color: var(--fg-2); margin-top: 4px; }
+.price-split {
+  margin-top: 16px; display: flex; gap: 8px;
+}
+.split-pill {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 500; color: var(--fg-3);
+  background: var(--bg-raised); border: 1px solid var(--border);
+  border-radius: 100px; padding: 4px 12px;
+}
+.split-pill span { color: var(--fg-2); }
+
+/* ── NEXT STRIP ──────────────────────────────────────────────────── */
+.next-strip {
+  margin-top: 20px; padding: 28px 32px;
+  background: rgba(255,255,255,.02); border: 1px solid var(--border); border-radius: 10px;
+}
+.next-strip-label { font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-3); margin-bottom: 20px; }
+.ns-steps {
+  display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+  align-items: center;
+}
+.ns-step { display: flex; flex-direction: column; gap: 10px; }
+.ns-circle {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: rgba(68,196,150,.08); border: 1px solid rgba(68,196,150,.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; color: var(--teal);
+}
+.ns-text { font-size: 12.5px; font-weight: 500; color: var(--fg-2); line-height: 1.4; }
+.ns-sub { font-size: 11px; color: var(--fg-3); margin-top: 2px; display: block; font-weight: 400; }
+.ns-arrow { display: flex; align-items: center; padding: 0 16px; padding-bottom: 20px; color: var(--fg-3); font-size: 14px; }
+
+/* ── RESPONSIVE ──────────────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .cover { padding: 36px 28px 56px; }
+  .wrap { padding: 0 28px; }
+  .section { padding: 64px 0; }
+  .challenge-grid { grid-template-columns: 1fr; }
+  .del-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .track-grid { grid-template-columns: 1fr 1fr; }
+  .testi-grid { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .price-block { grid-template-columns: 1fr; padding: 36px 28px; gap: 24px; }
+  .price-aside { text-align: left; }
+  .next-strip { padding: 24px 20px; }
+  .ns-steps { grid-template-columns: 1fr; gap: 16px; }
+  .ns-arrow { padding: 0; transform: rotate(90deg); width: 30px; }
+  .nav-inner { padding: 0 20px; }
+}
+@media (max-width: 600px) {
+  .track-grid { grid-template-columns: 1fr; }
+  .cover-meta { gap: 24px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <div class="nav-logo-wrap">
+      <div class="nav-logo">MPM <em>Labs</em></div>
+      <div class="nav-sep"></div>
+      <div class="nav-client-logo">
+        <svg class="nav-client-icon" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11 20C11 20 2 13.8 2 7.8C2 5.1 4.2 3 6.9 3C8.8 3 10.5 4.1 11 5.7C11.5 4.1 13.2 3 15.1 3C17.8 3 20 5.1 20 7.8C20 13.8 11 20 11 20Z" fill="currentColor"/>
+          <polygon points="11,8 12.8,11.5 16.5,11.5 13.8,13.8 14.8,17.5 11,15.2 7.2,17.5 8.2,13.8 5.5,11.5 9.2,11.5" fill="var(--bg)" opacity="0.25" transform="scale(0.52) translate(10.4, 9)"/>
+        </svg>
+        <span class="nav-client-name">Timeless</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#challenge">The Challenge</a>
+      <a href="#playbook">The Playbook</a>
+      <a href="#deliverables">Deliverables</a>
+      <a href="#track-record">Track Record</a>
+      <a href="#team">Team</a>
+      <a href="#next-steps">Next Steps</a>
+    </div>
+  </div>
+</nav>
+
+<section class="cover" id="cover">
+  <div class="cover-haze"></div>
+  <div class="cover-haze-2"></div>
+
+  <div class="cover-top">
+    <div class="cover-top-left">
+      <div class="cover-wordmark">MPM <em>Labs</em></div>
+      <div class="cover-sub-line">Go-to-Market Partner</div>
+    </div>
+    <div class="cover-top-right">
+      <div class="cover-client-logo">
+        <svg class="cover-client-icon" style="width:30px;height:30px;color:var(--teal);opacity:.65;" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11 20C11 20 2 13.8 2 7.8C2 5.1 4.2 3 6.9 3C8.8 3 10.5 4.1 11 5.7C11.5 4.1 13.2 3 15.1 3C17.8 3 20 5.1 20 7.8C20 13.8 11 20 11 20Z" fill="currentColor"/>
+          <polygon points="11,8 12.8,11.5 16.5,11.5 13.8,13.8 14.8,17.5 11,15.2 7.2,17.5 8.2,13.8 5.5,11.5 9.2,11.5" fill="var(--bg)" opacity="0.3" transform="scale(0.52) translate(10.4, 9)"/>
+        </svg>
+        <span style="font-size:18px;font-weight:700;letter-spacing:-.01em;color:var(--fg-2);opacity:.6;">Timeless</span>
+      </div>
+      <div class="cover-ref">
+        <div class="cover-ref-id">MPM-2025-TI</div>
+        <div class="cover-badge">Playbook Only</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cover-body">
+    <div class="cover-text">
+      <h1 class="cover-title">
+        <span class="cover-line"><span class="cover-line-inner">The growth partner</span></span>
+        <span class="cover-line"><span class="cover-line-inner">built for</span></span>
+        <span class="cover-line"><span class="cover-line-inner"><em>real assets.</em></span></span>
+      </h1>
+      <div class="cover-rule"></div>
+      <p class="cover-subtitle">Four weeks to build Timeless Investments the GTM strategy it deserves — reaching the financially savvy, collector-minded investors who build long-term portfolios, across Web2 and Web3 simultaneously.</p>
+      <div class="cover-meta">
+        <div><div class="cm-label">Engagement</div><div class="cm-value">GTM Strategy Playbook</div></div>
+        <div><div class="cm-label">Duration</div><div class="cm-value">4 weeks</div></div>
+        <div><div class="cm-label">Investment</div><div class="cm-value">€18,000 · one-time</div></div>
+        <div><div class="cm-label">Prepared by</div><div class="cm-value">MPM Labs</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+
+<!-- ── THE CHALLENGE ─────────────────────────────────────────────── -->
+<section class="section" id="challenge">
+  <div class="sec-label">What You Told Us</div>
+  <h2 class="sec-title">The execution is the<br>bottleneck — not the ideas.</h2>
+  <p class="sec-sub">Timeless Investments has 5.5 years of market experience, 80,000+ registered investors, MiCAR-compliant infrastructure, and two compelling products. What's been missing is a structured GTM strategy and the execution horsepower to reach the right audience at scale.</p>
+
+  <div class="challenge-grid">
+    <div class="challenge-card">
+      <div class="challenge-num">01 · The Problem</div>
+      <div class="challenge-title">Reaching investors with real liquidity</div>
+      <p class="challenge-body">Mass performance marketing reached broad audiences — but not the investor profiles that build multi-asset portfolios. The goal is financially savvy collectors: people who understand illiquid asset classes, have genuine affinity for the assets, and are willing to invest €25,000–€35,000 over time. These people are harder to reach, but infinitely more valuable to the platform.</p>
+    </div>
+    <div class="challenge-card">
+      <div class="challenge-num">02 · The Gap</div>
+      <div class="challenge-title">80,000 registered — 10–15K active</div>
+      <p class="challenge-body">You have a strong user base that arrived early but stopped reinvesting. The typical pattern: one test investment, a multi-year wait for exit, then silence. The platform needs both a reactivation engine for existing users and an acquisition strategy for new investors who enter with portfolio depth — not one-time curiosity buys.</p>
+    </div>
+    <div class="challenge-card">
+      <div class="challenge-num">03 · The Moment</div>
+      <div class="challenge-title">Two products, one window</div>
+      <p class="challenge-body">Collective Invest — your new ISIN-backed bearer bond — removes the expertise barrier for traditional investors. Timeless Investments serves the collector-driven, emotionally engaged buyer. Launching both products coherently, with the right message to the right audience, in Q4 2025 — while your fundraise closes — is a compressible window that needs a clear plan now.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── THE PLAYBOOK ───────────────────────────────────────────────── -->
+<section class="section" id="playbook">
+  <div class="sec-label">The Engagement</div>
+  <h2 class="sec-title">A four-week exercise<br>built around Timeless.</h2>
+  <p class="sec-sub">The GTM Playbook is a collaborative, structured exercise: we extract everything your team already knows, add the market intelligence and Web3 collector access we bring, and produce a complete strategy — owned by you, executable by any team.</p>
+
+  <div class="process">
+    <div class="process-step">
+      <div class="step-num">01</div>
+      <div>
+        <div class="step-week">Week 1</div>
+        <div class="step-title">Deep Briefing & Landscape Scan</div>
+        <p class="step-body">We brief every specialist across the team: narrative, community, content, partnerships, and Web3 collector access. We audit Timeless Investments' current positioning across LinkedIn, Instagram, and PR channels. We map the collectibles investment landscape in DACH and identify where the high-LTV collector-investor profiles actually discover, trust, and commit to new asset classes — both in Web2 and in the Web3 communities where they're already active. BaFin regulation, MiCAR compliance, and the ISIN-backed Collective Invest structure become the lead strategic trust signals.</p>
+        <div class="step-duration">Week 1 · 5 business days</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">02</div>
+      <div>
+        <div class="step-week">Week 1–2</div>
+        <div class="step-title">ICP Definition & Narrative Architecture</div>
+        <p class="step-body">Timeless has three distinct audiences that need entirely different stories to move. First: the existing 80,000 registered investors who need a reactivation hook — a reason to return and build. Second: the Web3-native crypto collector (NFT community members, TCG participants) who already thinks in tokenised assets but hasn't been shown an illiquid long-term play that makes sense for their liquidity profile. Third: the traditional investment-savvy professional who wants non-correlated asset exposure with a regulated, ISIN-backed entry point. We build a narrative framework that speaks to all three without contradiction — and define the right product-to-audience mapping for both Timeless Investments and Collective Invest.</p>
+        <div class="step-duration">Week 1–2 · 5–8 business days</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">03</div>
+      <div>
+        <div class="step-week">Week 2–3</div>
+        <div class="step-title">Channel Strategy & Omnichannel Activation Plan</div>
+        <p class="step-body">The right channel for each ICP is different. Reactivation requires email sequencing, CRM-led retargeting, and content that reconnects with existing investors. Web3 collectors are inside NFT Discord servers, TCG communities, and Web3 Twitter — reachable through targeted creator partnerships and NFT collector community activations. Traditional investment-savvy professionals are on LinkedIn, in finance media, and discoverable through AEO and SEO on ChatGPT, Claude, and Google as they search for alternative investments. We build a full omnichannel plan: which platforms, which content formats, which budget allocation — including a roadmap for DACH first, with a scalable model for Southern and Central Europe expansion.</p>
+        <div class="step-duration">Week 2–3 · 5–7 business days</div>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">04</div>
+      <div>
+        <div class="step-week">Week 3–4</div>
+        <div class="step-title">Phased Action Plan & Playbook Delivery</div>
+        <p class="step-body">The complete Playbook: a phase-by-phase roadmap covering the Collective Invest launch, user reactivation, and sustained platform growth — with week-by-week milestones, content pillars, channel owners, budget envelopes, and KPI targets for each ICP track. Built to hand directly to an execution team or use as investor due-diligence material for your ongoing fundraise. We walk you through it live, answer everything, and you own the document in full.</p>
+        <div class="step-duration">Week 3–4 · Delivery by end of week 4</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DELIVERABLES ───────────────────────────────────────────────── -->
+<section class="section" id="deliverables">
+  <div class="sec-label">What Gets Delivered</div>
+  <h2 class="sec-title">Six documents.<br>One complete strategy.</h2>
+  <p class="sec-sub">Everything built from scratch around Timeless Investments' two products, three audience segments, and the DACH-first, Europe-ready expansion brief.</p>
+
+  <div class="del-grid">
+    <div class="del-card">
+      <div class="del-title">ICP Analysis & Audience Map</div>
+      <p class="del-body">Three-segment deep-dive: existing investor reactivation, Web3-native crypto collectors, and traditional investment-savvy professionals seeking non-correlated asset exposure. Each segment mapped by platform, trust signals, message angle, content format, and acquisition channel priority — with product-to-audience routing for both Timeless Investments and Collective Invest.</p>
+    </div>
+    <div class="del-card">
+      <div class="del-title">Narrative & Positioning Framework</div>
+      <p class="del-body">Core messages, proof points, and the story architecture that guides every content piece, every creator brief, and every investor touchpoint. Built around Timeless's actual differentiators: 5+ years of verifiable collectibles performance data (~7% avg. annual return), BaFin-regulated products, the ISIN-backed Collective Invest bearer bond, and a curated, data-driven asset selection process.</p>
+    </div>
+    <div class="del-card">
+      <div class="del-title">Channel Mix & Budget Framework</div>
+      <p class="del-body">Per-ICP channel allocation across organic UGC, SEO/AEO/GEO, Web3 community partnerships, email reactivation, LinkedIn founder-led content, and targeted creator activations — with budget ranges, expected output, and trade-offs documented. Each audience gets the channel where they actually convert — including a geo-targeted organic UGC rollout for DACH and beyond.</p>
+    </div>
+    <div class="del-card">
+      <div class="del-title">Phased Action Plan</div>
+      <p class="del-body">A phase-by-phase growth roadmap — Collective Invest launch momentum, Timeless Investments reactivation, and sustained audience expansion — with milestones, owners, timelines, and KPI targets per ICP track. Built to execute independently or hand directly to any agency team.</p>
+    </div>
+    <div class="del-card">
+      <div class="del-title">Content Engine Blueprint</div>
+      <p class="del-body">Content strategy and channel architecture for the assets Timeless already has: five years of collectibles arriving in storage, portfolio performance data, founder story, and asset-class education. Built into a reusable content system — platform-specific formats for LinkedIn, Instagram, and video — so your team can execute consistently without constant creative rebuilding.</p>
+    </div>
+    <div class="del-card">
+      <div class="del-title">Web3 Collector Activation Plan</div>
+      <p class="del-body">A targeted playbook for accessing the collector communities that already exist in crypto: NFT holder networks, TCG communities, and Web3-native investor pockets with genuine long-term affinity. Includes a geo-fencing strategy to ensure only eligible European investors enter the funnel, activation mechanics — such as collector card experiences and NFT-based onboarding — and partnership shortlists within MPM's network.</p>
+    </div>
+  </div>
+
+  <div class="stats-block">
+    <div class="sec-label">The team behind it</div>
+    <div class="stats-row">
+      <div><div class="stat-val">€200M+</div><div class="stat-lbl">Revenue driven for clients</div></div>
+      <div><div class="stat-val">300+</div><div class="stat-lbl">Web3 campaigns executed</div></div>
+      <div><div class="stat-val">20M+</div><div class="stat-lbl">Audience growth generated</div></div>
+      <div><div class="stat-val">$1B+</div><div class="stat-lbl">TVL supported across ecosystems</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TRACK RECORD ─────────────────────────────────────────────── -->
+<section class="section" id="track-record">
+  <div class="sec-label">Track Record</div>
+  <h2 class="sec-title">Why we understand<br>your exact challenge.</h2>
+  <p class="sec-sub">We don't work with every type of project. The clients below show why Timeless Investments sits squarely in what we do best: RWA tokenization, collector communities, and finding the high-LTV investors others can't reach.</p>
+  <div class="track-grid">
+
+    <div class="track-case">
+      <div class="track-logo"><svg width="62" height="20" viewBox="0 0 62 20" fill="currentColor"><text y="15" font-family="-apple-system,BlinkMacSystemFont,system-ui" font-weight="600" font-size="16">ondo</text></svg></div>
+      <div class="track-tag">Real-World Assets · Distribution & Growth</div>
+      <div class="track-proj">Ondo Finance</div>
+      <p class="track-desc">Creator activation and distribution for the leading RWA tokenisation protocol — directly comparable to Timeless's thesis of bringing real-world assets on-chain for a new investor generation. A single $300 activation produced over $1M in tracked platform volume. We contributed to their PerpStacks launch, driving $12B+ monthly trading volume within a month of going live.</p>
+      <div class="track-relevance">→ RWA investor acquisition, identical asset-class narrative challenge</div>
+      <div class="track-metrics">
+        <div><div class="tm-val">$12B+</div><div class="tm-lbl">Monthly platform volume</div></div>
+        <div><div class="tm-val">$1M+</div><div class="tm-lbl">From a $300 spend</div></div>
+      </div>
+    </div>
+
+    <div class="track-case">
+      <div class="track-logo"><svg width="72" height="20" viewBox="0 0 72 20" fill="currentColor"><text y="15" font-family="-apple-system,BlinkMacSystemFont,system-ui" font-weight="700" font-size="15">Goodies</text></svg></div>
+      <div class="track-tag">Collector Marketplace · Organic Growth</div>
+      <div class="track-proj">Goodies Marketplace</div>
+      <p class="track-desc">A tokenised collectibles marketplace we co-owned and launched. Working exclusively with collector communities — Pudgy Penguins, Doodles, Bored Apes, Doodles, Lionsgate (John Wick), Justin Bieber, Lamborghini — we activated NFT-native collector audiences through organic partnership campaigns, with zero paid KOLs or speculator-focused tactics. The result: €10M in sales within the first two weeks of launch.</p>
+      <div class="track-relevance">→ Direct proof of collector activation at scale, no speculation required</div>
+      <div class="track-metrics">
+        <div><div class="tm-val">€10M</div><div class="tm-lbl">Sales in first 2 weeks</div></div>
+        <div><div class="tm-val">100%</div><div class="tm-lbl">Organic — zero paid KOLs</div></div>
+      </div>
+    </div>
+
+    <div class="track-case">
+      <div class="track-logo"><svg width="56" height="20" viewBox="0 0 56 20" fill="currentColor"><text y="16" font-family="-apple-system,BlinkMacSystemFont,system-ui" font-weight="800" font-size="17" letter-spacing=".3">SIXR</text></svg></div>
+      <div class="track-tag">SportsFi · Community Growth at Scale</div>
+      <div class="track-proj">SIXR Cricket</div>
+      <p class="track-desc">Built one of the most vibrant crypto communities of 2025 entirely from scratch. Zero brand presence on day one — 119K X followers, 36K Discord members, 21M+ impressions, and 220K platform users inside 12 weeks. We crushed every KPI given at project start, including 5 industry-mover partnerships (Animoca Brands, Kaido) and 180+ Web3 community collaborations.</p>
+      <div class="track-relevance">→ Proof of community and user growth at speed from zero baseline</div>
+      <div class="track-metrics">
+        <div><div class="tm-val">119K+</div><div class="tm-lbl">X followers in Phase 1</div></div>
+        <div><div class="tm-val">21M+</div><div class="tm-lbl">Campaign impressions</div></div>
+      </div>
+    </div>
+
+    <div class="track-case">
+      <div class="track-logo"><svg width="70" height="20" viewBox="0 0 70 20" fill="currentColor"><text y="15" font-family="-apple-system,BlinkMacSystemFont,system-ui" font-weight="600" font-size="15">bitget</text></svg></div>
+      <div class="track-tag">Crypto Neobank · High-LTV User Acquisition</div>
+      <div class="track-proj">RedotPay</div>
+      <p class="track-desc">Strategic advisor to the HK crypto neobank that reached unicorn status through Web3-native distribution. The challenge was identical to Timeless's: not mass acquisition, but reaching high-spending, high-LTV users who would become long-term platform anchors. We onboarded 100+ high-spending whales who referred their networks directly — the exact quality-over-quantity model Timeless needs for its portfolio-depth investor base.</p>
+      <div class="track-relevance">→ High-LTV investor acquisition — quality over volume, durable platform growth</div>
+      <div class="track-metrics">
+        <div><div class="tm-val">$194M+</div><div class="tm-lbl">Raised by client</div></div>
+        <div><div class="tm-val">100+</div><div class="tm-lbl">High-LTV whales onboarded</div></div>
+      </div>
+    </div>
+
+    <div class="track-case">
+      <div class="track-logo"><svg width="70" height="20" viewBox="0 0 70 20" fill="currentColor"><text y="15" font-family="-apple-system,BlinkMacSystemFont,system-ui" font-weight="700" font-size="13" letter-spacing="2.5">RAYLS</text></svg></div>
+      <div class="track-tag">Institutional DeFi · Finance-Adjacent Audiences</div>
+      <div class="track-proj">Rayls</div>
+      <p class="track-desc">Social growth, KOL activations, and coordinated campaigns for this institutional DeFi protocol. Built community presence and mindshare from scratch through our network — reaching the finance-adjacent, institutional-minded audiences that Timeless's Collective Invest ISIN product also needs to convert.</p>
+      <div class="track-relevance">→ Finance-adjacent audience reach, institutional trust-building in Web3</div>
+      <div class="track-metrics">
+        <div><div class="tm-val">500k+</div><div class="tm-lbl">Campaign impressions</div></div>
+        <div><div class="tm-val">20k+</div><div class="tm-lbl">Followers built</div></div>
+      </div>
+    </div>
+
+    <div class="track-case">
+      <div class="track-logo"><svg width="52" height="20" viewBox="0 0 52 20" fill="currentColor"><text y="16" font-family="-apple-system,BlinkMacSystemFont,system-ui" font-weight="700" font-size="17">OKX</text></svg></div>
+      <div class="track-tag">Global CEX · Regional Market Entry</div>
+      <div class="track-proj">OKX</div>
+      <p class="track-desc">KOL whitelist allocation and creator-led distribution across OKX Alpha launches. Early support on OKX's regional expansion into LATAM — the same multi-market rollout challenge Timeless faces moving from DACH into Southern and Central Europe. Access to the same global distribution infrastructure and Web3 creator network, available for Timeless across all eligible European markets.</p>
+      <div class="track-relevance">→ Multi-region expansion playbook, geo-targeted creator activation</div>
+      <div class="track-metrics">
+        <div><div class="tm-val">$500k</div><div class="tm-lbl">Public sale closed</div></div>
+        <div><div class="tm-val">Multi</div><div class="tm-lbl">Regional KOL rounds</div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ──────────────────────────────────────────────── -->
+<section class="section" id="testimonials">
+  <div class="sec-label">Testimonials</div>
+  <h2 class="sec-title">What founders say.</h2>
+  <div class="testi-grid">
+    <div class="testi">
+      <p class="testi-q">Working with MPM Labs, we were able to build one of the most vibrant crypto communities of 2025, onboard 200k+ users within a few months, generated 21M+ impressions across our campaigns, and significantly benefit from their network of Web3-native communities, partners, and thought leaders.</p>
+      <div><div class="testi-name">Ahad Bhai</div><div class="testi-role">CEO, SIXR Cricket &amp; Bongo.tv</div></div>
+    </div>
+    <div class="testi">
+      <p class="testi-q">I've collaborated with MPM for a long time, and it is always surprising to see how efficient and resourceful their team is. They're some of the best connected, driven and overachieving individuals I've met in Web3 and in business overall.</p>
+      <div><div class="testi-name">Florian Ehrbar</div><div class="testi-role">CEO, OnchainLabs</div></div>
+    </div>
+    <div class="testi">
+      <p class="testi-q">MPM acts like a team member, fully invested in your success and being good people in the process.</p>
+      <div><div class="testi-name">Bandar Altunisi</div><div class="testi-role">Board Member, Web3 Alliance of Saudi Arabia</div></div>
+    </div>
+    <div class="testi">
+      <p class="testi-q">MPM Labs are asset people, people who understand that technology doesn't create value from thin air. We expect great things from the next stage of their development.</p>
+      <div><div class="testi-name">Vinay Gupta</div><div class="testi-role">CEO, Mattereum · ex-Head of Strategy, Ethereum Foundation</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TEAM ─────────────────────────────────────────────────────── -->
+<section class="section" id="team">
+  <div class="sec-label">The Team</div>
+  <h2 class="sec-title">Timeless's execution-<br>ready support layer.</h2>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-photo"><img src="Photos/max copy.png" alt="Max Troendle"></div>
+      <div class="team-name">Max Troendle</div>
+      <div class="team-role">Client lead. 15+ years advising C-level across institutions and blockchain ventures.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-photo"><img src="Photos/remco copy.png" alt="Remco Slikker"></div>
+      <div class="team-name">Remco Slikker</div>
+      <div class="team-role">Readiness assessment, layer architecture, and strategic roadmap across the on-chain asset stack.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-photo"><img src="Photos/piero copy.png" alt="Piero Cusmano"></div>
+      <div class="team-name">Piero Cusmano</div>
+      <div class="team-role">Commercial strategy and partner network development. Swiss and European ecosystem.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-photo"><img src="Photos/nico copy.png" alt="Nicolas Goehler"></div>
+      <div class="team-name">Nicolas Goehler</div>
+      <div class="team-role">Client communication and project management. End-to-end coordination across all workstreams.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-photo"><img src="Photos/ahmad copy.png" alt="Ahmad Mondher"></div>
+      <div class="team-name">Ahmad Mondher</div>
+      <div class="team-role">GTM playbook lead. 5+ years Web3 GTM. Collector community access: PudgyPenguins, Doodles, Azuki, and 10M+ in tokenised collectibles sales.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-photo"><img src="Photos/mohamed.png" alt="Mohamed Thufail"></div>
+      <div class="team-name">Mohamed Thufail</div>
+      <div class="team-role">Social Media &amp; Growth Manager. Content strategy, engagement, and channel growth across Web2 and Web3.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-photo"><img src="Photos/gigi.png" alt="Gigi de Vries"></div>
+      <div class="team-name">Gigi de Vries</div>
+      <div class="team-role">Venture &amp; GTM Strategist. Launch architecture, investor narrative, and go-to-market structuring.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-photo"><img src="Photos/germaine.png" alt="Germaine Havana"></div>
+      <div class="team-name">Germaine Havana</div>
+      <div class="team-role">Operations Manager. Cross-functional coordination, delivery tracking, and project logistics.</div>
+    </div>
+  </div>
+  <p class="team-ext">+ 3+ brand designers &nbsp;·&nbsp; 5–8+ community &amp; collab managers &nbsp;·&nbsp; 300+ KOL and collector community connections across the network</p>
+</section>
+
+<!-- ── NEXT STEPS ────────────────────────────────────────────────── -->
+<section class="section" id="next-steps">
+  <div class="price-block">
+    <div>
+      <div class="price-eyebrow">The Offer</div>
+      <h2 class="price-heading">GTM Strategy Playbook.<br>Built in four weeks.</h2>
+      <p class="price-body">Reply to our email thread to confirm you're ready to move forward. We'll walk through the full scope on our next call with Malte and Michael, answer any open questions on the deliverables and timeline, and confirm the kick-off date. Once you give the green light, the services agreement goes out the same day — and we can be operational within 72 hours.</p>
+      <p class="price-body" style="margin-top:14px;">The Playbook becomes yours in full — executable independently or as investor due-diligence material for your ongoing fundraise. Nine out of ten clients proceed directly into execution with us after receiving it.</p>
+      <div class="price-split">
+        <div class="split-pill">50% at signature <span>— €9,000</span></div>
+        <div class="split-pill">50% on delivery <span>— €9,000</span></div>
+      </div>
+      <div class="price-validity">MPM-2025-TI · Prepared for Timeless Investments · Confidential · October 2025</div>
+    </div>
+    <div class="price-aside">
+      <div class="price-aside-label">One-time investment</div>
+      <div class="price-aside-val">€18k</div>
+      <div class="price-aside-sub">4 weeks · fixed · GTM Playbook</div>
+    </div>
+  </div>
+
+  <div class="next-strip">
+    <div class="next-strip-label">What happens next</div>
+    <div class="ns-steps">
+      <div class="ns-step">
+        <div class="ns-circle">1</div>
+        <div class="ns-text">Reply to our email<span class="ns-sub">Start the conversation</span></div>
+      </div>
+      <div class="ns-arrow">→</div>
+      <div class="ns-step">
+        <div class="ns-circle">2</div>
+        <div class="ns-text">Agreement sent<span class="ns-sub">Same day</span></div>
+      </div>
+      <div class="ns-arrow">→</div>
+      <div class="ns-step">
+        <div class="ns-circle">3</div>
+        <div class="ns-text">Kick-off call<span class="ns-sub">Within 72 hours</span></div>
+      </div>
+      <div class="ns-arrow">→</div>
+      <div class="ns-step">
+        <div class="ns-circle">4</div>
+        <div class="ns-text">Playbook delivered<span class="ns-sub">By end of week 4</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<script>
+(function(){
+  var nav  = document.getElementById('nav');
+  var prog = document.getElementById('progress');
+  var links = document.querySelectorAll('.nav-links a');
+  var cover = document.getElementById('cover');
+  window.addEventListener('scroll', function(){
+    var sy = window.scrollY;
+    var dh = document.documentElement.scrollHeight - window.innerHeight;
+    prog.style.width = (dh > 0 ? Math.min(sy / dh * 100, 100) : 0) + '%';
+    nav.classList.toggle('show', sy > cover.offsetHeight * 0.7);
+    var cur = '';
+    document.querySelectorAll('section[id]').forEach(function(s){
+      if (sy >= s.offsetTop - 100) cur = s.id;
+    });
+    links.forEach(function(a){
+      a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+    });
+  }, { passive: true });
+
+  var NUM_RE = /^([^0-9]*)([0-9]+\.?[0-9]*)(.*)$/;
+  function easeOut(t){ return 1 - Math.pow(1 - t, 3); }
+  function animateCounter(el){
+    var raw = el.textContent.trim();
+    var m = NUM_RE.exec(raw);
+    if (!m) return;
+    var pre = m[1], num = parseFloat(m[2]), suf = m[3];
+    var isFloat = m[2].indexOf('.') !== -1;
+    var decimals = isFloat ? (m[2].split('.')[1] || '').length : 0;
+    var start = null, dur = 1400;
+    function step(ts){
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var v = num * easeOut(p);
+      el.textContent = pre + (isFloat ? v.toFixed(decimals) : Math.round(v)) + suf;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var counters = document.querySelectorAll('.stat-val, .tm-val');
+  var seen = new WeakSet();
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting && !seen.has(e.target)){
+        seen.add(e.target);
+        animateCounter(e.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  counters.forEach(function(el){ io.observe(el); });
+})();
+</script>
+</body>
+</html>
