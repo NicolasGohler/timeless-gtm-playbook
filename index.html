@@ -329,8 +329,11 @@ ul { list-style: none; }
   opacity: 1;
   animation: border-spin 3s linear infinite;
 }
-.track-logo { height: 20px; display: flex; align-items: center; color: var(--fg-3); margin-bottom: 16px; transition: color .15s; }
-.track-case:hover .track-logo { color: var(--fg-2); }
+.track-logo { height: 36px; display: flex; align-items: center; margin-bottom: 18px; }
+.track-logo img { height: 28px; width: auto; max-width: 140px; filter: grayscale(1) invert(1) brightness(1.6); opacity: .7; transition: opacity .15s; }
+.track-case:hover .track-logo img { opacity: .95; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .track-logo img { filter: grayscale(1); opacity: .75; } }
+:root[data-theme="light"] .track-logo img { filter: grayscale(1); opacity: .75; }
 .track-tag { font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--label); margin-bottom: 10px; }
 .track-proj { font-size: 17px; font-weight: 700; letter-spacing: -.015em; color: var(--fg); margin-bottom: 10px; }
 .track-desc { font-size: 12.5px; font-weight: 400; color: var(--fg-2); line-height: 1.72; flex: 1; }
@@ -689,7 +692,7 @@ ul { list-style: none; }
   <div class="track-grid">
 
     <div class="track-case">
-      <div class="track-logo"><svg width="62" height="20" viewBox="0 0 62 20" fill="currentColor"><text y="15" font-family="-apple-system,BlinkMacSystemFont,system-ui" font-weight="600" font-size="16">ondo</text></svg></div>
+      <div class="track-logo"><img src="logos/ondo.svg" alt="Ondo Finance"></div>
       <div class="track-tag">Real-World Assets · Distribution & Growth</div>
       <div class="track-proj">Ondo Finance</div>
       <p class="track-desc">Creator activation and distribution for the leading RWA tokenisation protocol, directly comparable to Timeless's thesis of bringing real-world assets on-chain for a new investor generation. A single $300 activation produced over $1M in tracked platform volume. We contributed to their PerpStacks launch, driving $12B+ monthly trading volume within a month of going live.</p>
@@ -713,7 +716,7 @@ ul { list-style: none; }
     </div>
 
     <div class="track-case">
-      <div class="track-logo"><svg width="56" height="20" viewBox="0 0 56 20" fill="currentColor"><text y="16" font-family="-apple-system,BlinkMacSystemFont,system-ui" font-weight="800" font-size="17" letter-spacing=".3">SIXR</text></svg></div>
+      <div class="track-logo"><img src="logos/sixr.png" alt="SIXR Cricket"></div>
       <div class="track-tag">SportsFi · Community Growth at Scale</div>
       <div class="track-proj">SIXR Cricket</div>
       <p class="track-desc">Built one of the most vibrant crypto communities of 2025 entirely from scratch. Zero brand presence on day one, 119K X followers, 36K Discord members, 21M+ impressions, and 220K platform users inside 12 weeks. We crushed every KPI given at project start, including 5 industry-mover partnerships (Animoca Brands, Kaido) and 180+ Web3 community collaborations.</p>
@@ -725,7 +728,7 @@ ul { list-style: none; }
     </div>
 
     <div class="track-case">
-      <div class="track-logo"><svg width="70" height="20" viewBox="0 0 70 20" fill="currentColor"><text y="15" font-family="-apple-system,BlinkMacSystemFont,system-ui" font-weight="600" font-size="15">bitget</text></svg></div>
+      <div class="track-logo"><img src="logos/redotpay.svg" alt="RedotPay"></div>
       <div class="track-tag">Crypto Neobank · High-LTV User Acquisition</div>
       <div class="track-proj">RedotPay</div>
       <p class="track-desc">Strategic advisor to the HK crypto neobank that reached unicorn status through Web3-native distribution. The challenge was identical to Timeless's: not mass acquisition, but reaching high-spending, high-LTV users who would become long-term platform anchors. We onboarded 100+ high-spending whales who referred their networks directly, the exact quality-over-quantity model Timeless needs for its portfolio-depth investor base.</p>
@@ -737,7 +740,7 @@ ul { list-style: none; }
     </div>
 
     <div class="track-case">
-      <div class="track-logo"><svg width="70" height="20" viewBox="0 0 70 20" fill="currentColor"><text y="15" font-family="-apple-system,BlinkMacSystemFont,system-ui" font-weight="700" font-size="13" letter-spacing="2.5">RAYLS</text></svg></div>
+      <div class="track-logo"><img src="logos/rayls.svg" alt="Rayls"></div>
       <div class="track-tag">Institutional DeFi · Finance-Adjacent Audiences</div>
       <div class="track-proj">Rayls</div>
       <p class="track-desc">Social growth, KOL activations, and coordinated campaigns for this institutional DeFi protocol. Built community presence and mindshare from scratch through our network, reaching the finance-adjacent, institutional-minded audiences that Timeless's Collective Invest ISIN product also needs to convert.</p>
@@ -749,7 +752,7 @@ ul { list-style: none; }
     </div>
 
     <div class="track-case">
-      <div class="track-logo"><svg width="52" height="20" viewBox="0 0 52 20" fill="currentColor"><text y="16" font-family="-apple-system,BlinkMacSystemFont,system-ui" font-weight="700" font-size="17">OKX</text></svg></div>
+      <div class="track-logo"><img src="logos/okx.png" alt="OKX"></div>
       <div class="track-tag">Global CEX · Regional Market Entry</div>
       <div class="track-proj">OKX</div>
       <p class="track-desc">KOL whitelist allocation and creator-led distribution across OKX Alpha launches. Early support on OKX's regional expansion into LATAM, the same multi-market rollout challenge Timeless faces moving from DACH into Southern and Central Europe. Access to the same global distribution infrastructure and Web3 creator network, available for Timeless across all eligible European markets.</p>
